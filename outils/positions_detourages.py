@@ -23,6 +23,8 @@ NOMS = {
     "eleveur": "personne-13-eleveur-poulailler",
     "technicien": "personne-03-technicien-casque-rouge",
     "acheteur": "personne-14-acheteur-telephone",
+    "camion-laterite": "camion-05-benne-blanche-laterite",
+    "camion-piste": "camion-01-benne-rouge-piste",
 }
 
 

@@ -182,7 +182,7 @@ METIERS = [
         "liste": ["<strong>Papier toilette</strong> : absorbant, doux pour la peau, résistant, biodégradable"],
         "liste_2": ("Ce que nous distribuons", ["<strong>Lingettes humides</strong>", "<strong>Couches pour adultes</strong>"]),
         "pour_qui": "Hôtels, bureaux, restaurants, hôpitaux et cliniques {{à confirmer}}, bases-vie, grossistes et distributeurs.",
-        "pourquoi": "Un rouleau fabriqué à {{ville}} ne passe pas la frontière. Vous attendez moins, et votre prix dépend moins du cours du dollar {{seulement si c'est vrai}}. {{capacité de production : rouleaux par mois}}",
+        "pourquoi": "Un rouleau fabriqué à {{ville}} ne vient pas de l'étranger. Vous attendez moins, et votre prix dépend moins du cours du dollar {{seulement si c'est vrai}}. {{capacité de production : rouleaux par mois}}",
         "avec": [
             ("restauration-base-vie", "Une base-vie équipée et nourrie par le même fournisseur."),
             ("logistique", "Votre stock gardé chez nous et livré quand il baisse."),
@@ -421,10 +421,11 @@ def carte_corridor():
         svg = re.sub(rf'class="{c}"', f'class="gc-{c}"', svg)
     svg = svg.replace('id="titre-carte"', 'id="titre-carte-gc"').replace('id="desc-carte"', 'id="desc-carte-gc"')
     svg = svg.replace('aria-labelledby="titre-carte desc-carte"', 'aria-labelledby="titre-carte-gc desc-carte-gc"')
-    # Le poste frontière s'allume à l'étape 2.
+    # Le poste de Kasumbalesa (vers l'étranger) s'allume à l'étape 2.
     svg = svg.replace('<path class="gc-vers-frontiere"', '<path class="gc-vers-frontiere gc-kasumbalesa"')
     svg = svg.replace('<circle cx="814.0" cy="570.9"', '<circle class="gc-kasumbalesa" cx="814.0" cy="570.9"')
-    svg = svg.replace('class="gc-info" text-anchor="end">KASUMBALESA', 'class="gc-info gc-kasumbalesa" text-anchor="end">KASUMBALESA')
+    svg = svg.replace('class="gc-info" text-anchor="end">KASUMBALESA · FRONTIÈRE', 'class="gc-info gc-kasumbalesa" text-anchor="end">KASUMBALESA · VERS L’ÉTRANGER')
+    svg = svg.replace("Frontière zambienne à Kasumbalesa, 96 km au sud-est de Lubumbashi.", "Poste de Kasumbalesa, par où arrivent les marchandises de l'étranger, à 96 km au sud-est de Lubumbashi.")
     svg = svg.replace('class="gc-info" text-anchor="start">96 KM', 'class="gc-info gc-kasumbalesa" text-anchor="start">96 KM')
     return svg
 
@@ -527,6 +528,7 @@ def main():
         R = "../" if "/" in sortie else ""
         corps = open(os.path.join(SRC, source), encoding="utf-8").read()
         variables = dict(variables_communes, R=R, FAMILLES_METIERS=familles_metiers(R),
+                         SCENE_BANDE=scene("camion-laterite", R, "bande__scene", vitesse_fond="-0.18", vitesse_sujet="0.12"),
                          SCENE_SECURITE=scene("chef-chantier", R, "page-hero__scene", vitesse_fond="-0.1", vitesse_sujet="0.16", chargement="eager"))
         variables["COCHES_METIERS"] = "\n".join(
             f'<label class="coche"><input type="checkbox" name="metier" value="{m["slug"]}"> {m["nom"]}</label>' for m in METIERS

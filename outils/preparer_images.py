@@ -38,6 +38,8 @@ DETOURAGES = {
     "eleveur": ("personne-13-eleveur-poulailler.webp", 1000),
     "technicien": ("personne-03-technicien-casque-rouge.webp", 1000),
     "acheteur": ("personne-14-acheteur-telephone.webp", 1000),
+    "camion-laterite": ("camion-05-benne-blanche-laterite.webp", 1200),
+    "camion-piste": ("camion-01-benne-rouge-piste.webp", 1200),
     "howo-profil": ("camion-ia-02-howo-profil-chatgpt.webp", 1200),
     "howo-trois-quarts": ("camion-ia-01-howo-trois-quarts-chatgpt.webp", 1200),
     "malachite": ("mineral-01-malachite-chatgpt.webp", 640),
@@ -74,15 +76,64 @@ def main():
         print(f"{os.path.relpath(dossier, RACINE)} : {len(os.listdir(dossier))} fichiers, {total / 1e6:.1f} Mo")
 
 
+# Scènes où l'on garde la photo d'origine en pleine résolution et où Gemini ne remplit que la zone du sujet.
+# Réservé aux images où le raccord ne se voit pas (Gemini ne recadre pas toujours au pixel près).
+HYBRIDES = {"camion-laterite", "camion-piste"}
+
+
 def preparer_scenes():
-    """Fonds reconstruits par Gemini (la photo sans la personne) : le calque arrière de chaque scène."""
+    """Calque arrière de chaque scène : la photo d'origine en pleine résolution, sauf derrière le sujet,
+    où l'on prend le décor reconstruit par Gemini (Gemini rend des images d'environ 1 200 px seulement).
+    La zone empruntée à Gemini est la silhouette du sujet, élargie et adoucie pour que le raccord ne se voie pas."""
+    import json
+    from PIL import ImageFilter
     os.makedirs(SCENES, exist_ok=True)
+    positions = json.load(open(os.path.join(ICI, "positions.json"), encoding="utf-8"))
     for nom, (fichier, _) in DETOURAGES.items():
-        fond = os.path.join(SOURCE, "originales", "fonds-gemini", fichier.replace(".webp", "-fond.jpg"))
-        if not os.path.exists(fond):
+        base = fichier[:-len(".webp")]
+        gemini = os.path.join(SOURCE, "originales", "fonds-gemini", base + "-fond.jpg")
+        if not os.path.exists(gemini) or nom not in positions:
             continue
-        im = Image.open(fond).convert("RGB")
-        im.thumbnail((1400, 1400), Image.LANCZOS)
+        if nom not in HYBRIDES:
+            # Fond 100 % Gemini : propre, mais limité à environ 1 200 px.
+            im = Image.open(gemini).convert("RGB")
+            im.thumbnail((1400, 1400), Image.LANCZOS)
+            im.save(os.path.join(SCENES, f"{nom}.webp"), "WEBP", quality=78, method=6)
+            print("scène", nom, im.size)
+            continue
+        photo = Image.open(os.path.join(SOURCE, "originales", base + ".jpg")).convert("RGB")
+        photo.thumbnail((2400, 2400), Image.LANCZOS)
+        W, H = photo.size
+        fond = Image.open(gemini).convert("RGB").resize((W, H), Image.LANCZOS)
+        p = positions[nom]
+        sujet = Image.open(os.path.join(SOURCE, "detourees", fichier)).getchannel("A")
+        sujet = sujet.resize((max(1, round(p["l"] * W)), max(1, round(p["h"] * H))), Image.LANCZOS)
+        masque = Image.new("L", (W, H), 0)
+        masque.paste(sujet, (round(p["x"] * W), round(p["y"] * H)))
+        import cv2
+        import numpy as np
+
+        def elargir(m, rayon):
+            noyau = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2 * rayon + 1, 2 * rayon + 1))
+            return cv2.dilate(m, noyau)
+
+        m = (np.asarray(masque) > 20).astype(np.uint8) * 255
+        m = elargir(m, int(max(W, H) * 0.006))
+        # Gemini ne rend pas exactement les mêmes teintes : on cale ses couleurs sur la photo,
+        # en comparant un anneau autour du sujet (là où les deux images montrent le même décor).
+        anneau = (elargir(m, int(max(W, H) * 0.03)) > 0) & (m == 0)
+        g = np.asarray(fond, dtype=np.float32).copy()
+        ph = np.asarray(photo, dtype=np.float32)
+        if anneau.sum() > 500:
+            for c in range(3):
+                mg, sg = g[..., c][anneau].mean(), g[..., c][anneau].std() + 1e-3
+                mp, sp = ph[..., c][anneau].mean(), ph[..., c][anneau].std() + 1e-3
+                g[..., c] = (g[..., c] - mg) * (sp / sg) + mp
+            fond = Image.fromarray(np.clip(g, 0, 255).astype(np.uint8))
+        flou = int(max(W, H) * 0.016) | 1
+        masque = Image.fromarray(cv2.GaussianBlur(m, (0, 0), flou / 2))
+        im = Image.composite(fond, photo, masque)
+        im.thumbnail((1920, 1920), Image.LANCZOS)
         im.save(os.path.join(SCENES, f"{nom}.webp"), "WEBP", quality=78, method=6)
         print("scène", nom, im.size)
 

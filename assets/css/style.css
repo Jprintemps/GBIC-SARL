@@ -737,3 +737,50 @@ legend, .champ label { display: block; font: 600 16px/1.3 var(--texte); margin-b
 .illu__sablier { transform-box: fill-box; transform-origin: center; animation: sablier 3s ease-in-out infinite; }
 @keyframes sablier { 0%, 40% { transform: rotate(0); } 50%, 100% { transform: rotate(180deg); } }
 @media (prefers-reduced-motion: reduce) { .illu__camion-roule, .illu__sablier { animation: none; } }
+
+/* Carte du corridor : fond blanc en thème clair, fond de la section en thème sombre */
+.carte {
+  box-shadow: none; background: var(--carte-fond);
+  --carte-fond: #FFFFFF; --carte-cd: #FFFFFF; --carte-zm: #FFFFFF; --carte-prov: #D5DAE5; --carte-pays: #8A96B8;
+  --carte-route: #DDE2EC; --carte-trajet: #14329A; --carte-ville: #0E1631; --carte-info: #4A5573; --carte-zone: #8A96B8; --carte-trait: #14329A;
+}
+:root[data-theme="dark"] .carte {
+  --carte-fond: var(--fond); --carte-cd: var(--fond); --carte-zm: var(--fond); --carte-prov: #2A3766; --carte-pays: #AEB8D6;
+  --carte-route: #2A3766; --carte-trajet: #FFFFFF; --carte-ville: #FFFFFF; --carte-info: #AEB8D6; --carte-zone: #5A6797; --carte-trait: #FFFFFF;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .carte {
+    --carte-fond: var(--fond); --carte-cd: var(--fond); --carte-zm: var(--fond); --carte-prov: #2A3766; --carte-pays: #AEB8D6;
+    --carte-route: #2A3766; --carte-trajet: #FFFFFF; --carte-ville: #FFFFFF; --carte-info: #AEB8D6; --carte-zone: #5A6797; --carte-trait: #FFFFFF;
+  }
+}
+.carte .gc-fond { fill: var(--carte-fond); }
+.carte .gc-cd { fill: var(--carte-cd); }
+.carte .gc-zm { fill: var(--carte-zm); }
+.carte .gc-prov { stroke: var(--carte-prov); }
+.carte .gc-pays { stroke: var(--carte-pays); }
+.carte .gc-route-fond { stroke: var(--carte-route); }
+.carte .gc-trajet { stroke: var(--carte-trajet); }
+.carte .gc-vers-frontiere { stroke: var(--carte-pays); }
+.carte .gc-ville { fill: var(--carte-ville); }
+.carte .gc-info { fill: var(--carte-info); }
+.carte .gc-km { fill: var(--carte-ville); }
+.carte .gc-zone { fill: var(--carte-zone); }
+.carte svg > g:not(.gc-camion) [fill="#FFFFFF"] { fill: var(--carte-trait); }
+.carte svg > g:not(.gc-camion) [fill="#AEB8D6"] { fill: var(--carte-pays); }
+.carte svg > circle[stroke="#FFFFFF"] { stroke: var(--carte-trait); }
+.carte svg > circle[fill="#0B1640"] { fill: var(--carte-fond); stroke: var(--carte-pays); }
+
+/* Emplacement de la photo du fondateur : remplacer le <span> par <img class="portrait-fondateur" src="…" alt="Alpha Goshen Kalubi Tumba"> */
+.portrait-fondateur {
+  display: grid; place-items: center; flex: none;
+  width: 112px; height: 112px; margin: 0 auto 18px; border-radius: 50%; overflow: hidden; object-fit: cover;
+  border: 2px dashed rgba(174, 184, 214, .55); background: rgba(255, 255, 255, .06);
+  font: 500 10px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--bleu-ciel); text-align: center;
+}
+.portrait-fondateur span { max-width: 74px; }
+img.portrait-fondateur { border: 3px solid var(--blanc); }
+.signature--portrait { display: flex; align-items: center; gap: 22px; }
+.signature--portrait .portrait-fondateur { margin: 0; width: 96px; height: 96px; }
+.dg__auteur .portrait-fondateur, .dg__auteur .portrait-fondateur span { font-size: 10px; color: var(--bleu-ciel); }
+.bande__scene { position: absolute; inset: 0; z-index: -2; }
