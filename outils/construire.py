@@ -173,7 +173,9 @@ METIERS = [
         "famille": 2,
         "carte": "Papier toilette fabriqué {{au Congo}}, lingettes et couches pour adultes, en gros, pour hôtels, bureaux, restaurants et bases-vie.",
         "photo": "rouleaux-papier",
-        "personne": "acheteur",
+        # Pas de personne sur Hygiène (le monsieur au téléphone a été retiré le 17/11) : les rouleaux suffisent.
+        "personne": None,
+        "carte_photo": "rouleaux-papier",
         "h1": "Du papier toilette fabriqué au Congo, livré en gros à vos établissements.",
         "chapo": "GBIC fabrique du papier toilette et distribue des lingettes et des couches pour adultes. Nos produits équipent des hôtels, des bureaux, des restaurants {{et des bases-vie}} en RDC, et partent à l'export ailleurs en Afrique {{pays et volumes à confirmer}}.",
         "titre_liste": "Ce que nous fabriquons",
@@ -440,7 +442,11 @@ def page_metier(m):
     avec = "\n".join(
         f'<a href="{PAR_SLUG[s]["slug"]}.html" data-revele style="--delai:{i * 0.08:.2f}s"><h3>{PAR_SLUG[s]["nom"]}</h3><p>{phrase}</p><span class="lien-fleche">Voir le métier</span></a>'
         for i, (s, phrase) in enumerate(m["avec"]))
-    if a_une_scene(m["personne"]):
+    if not m["personne"]:
+        # Pas de personne : la photo seule, en fond qui glisse.
+        visuel = fond(m['photo'], R, chargement='eager')
+        classe_hero = "page-hero page-hero--sans-personne sur-sombre"
+    elif a_une_scene(m["personne"]):
         visuel = scene(m["personne"], R, "page-hero__scene", vitesse_fond="-0.1", vitesse_sujet="0.16", chargement="eager")
         classe_hero = "page-hero page-hero--scene sur-sombre"
     else:
