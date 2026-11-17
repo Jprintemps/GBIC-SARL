@@ -14,9 +14,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#14329A">
+<script>try{var c=navigator.connection;if(/[?&]eco=1/.test(location.search)||c&&(c.saveData||/(^|-)2g$/.test(c.effectiveType||"")))document.documentElement.classList.add("eco")}catch(e){}</script>
 <script>try{var t=localStorage.getItem("gbic-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="preload" href="assets/fonts/montserrat-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 <script src="assets/js/main.js" defer></script>
 </head>
@@ -46,7 +45,7 @@
 <main id="contenu">
 <section class="page-hero sur-sombre page-hero--sans-personne" data-scene>
   <div class="fond-photo" data-vitesse="-0.35" aria-hidden="true">
-    <img src="assets/img/fonds/mine-aerienne-1920.webp" srcset="assets/img/fonds/mine-aerienne-960.webp 960w, assets/img/fonds/mine-aerienne-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high" decoding="async">
+    <picture><source type="image/avif" srcset="assets/img/fonds/mine-aerienne-480.avif 480w, assets/img/fonds/mine-aerienne-960.avif 960w, assets/img/fonds/mine-aerienne-1600.avif 1600w" sizes="100vw"><img alt="" fetchpriority="high" decoding="async" src="assets/img/fonds/mine-aerienne-960.webp" srcset="assets/img/fonds/mine-aerienne-480.webp 480w, assets/img/fonds/mine-aerienne-960.webp 960w, assets/img/fonds/mine-aerienne-1600.webp 1600w" sizes="100vw"></picture>
   </div>
   <div class="conteneur">
     <div class="page-hero__texte">
@@ -72,11 +71,11 @@
 
 <section class="dg sur-sombre" data-scene id="mot-du-fondateur" aria-labelledby="titre-fondateur" style="text-align:left">
   <div class="dg__cote dg__cote--gauche" aria-hidden="true">
-    <img class="minerai m1" src="assets/img/calques/cobalt.webp" alt="" data-vitesse="0.6" data-rotation="25" loading="lazy">
-    <img class="minerai m2" src="assets/img/calques/cuivre-natif.webp" alt="" data-vitesse="0.3" data-rotation="-10" loading="lazy">
+    <picture><source type="image/avif" srcset="assets/img/calques/cobalt-360.avif 360w, assets/img/calques/cobalt-640.avif 640w" sizes="(max-width: 900px) 130px, 240px"><img class="minerai m1" alt="" data-vitesse="0.6" data-rotation="25" loading="lazy" src="assets/img/calques/cobalt-640.webp" srcset="assets/img/calques/cobalt-360.webp 360w, assets/img/calques/cobalt-640.webp 640w" sizes="(max-width: 900px) 130px, 240px"></picture>
+    <picture><source type="image/avif" srcset="assets/img/calques/cuivre-natif-360.avif 360w, assets/img/calques/cuivre-natif-640.avif 640w" sizes="(max-width: 900px) 130px, 240px"><img class="minerai m2" alt="" data-vitesse="0.3" data-rotation="-10" loading="lazy" src="assets/img/calques/cuivre-natif-640.webp" srcset="assets/img/calques/cuivre-natif-360.webp 360w, assets/img/calques/cuivre-natif-640.webp 640w" sizes="(max-width: 900px) 130px, 240px"></picture>
   </div>
   <div class="dg__cote dg__cote--droite" aria-hidden="true">
-    <img class="minerai p2" src="assets/img/calques/chalcopyrite.webp" alt="" data-vitesse="0.8" data-rotation="-20" loading="lazy" style="border:0;box-shadow:none;aspect-ratio:auto;object-fit:contain">
+    <picture><source type="image/avif" srcset="assets/img/calques/chalcopyrite-360.avif 360w, assets/img/calques/chalcopyrite-640.avif 640w" sizes="(max-width: 900px) 130px, 240px"><img class="minerai p2" alt="" data-vitesse="0.8" data-rotation="-20" loading="lazy" style="border:0;box-shadow:none;aspect-ratio:auto;object-fit:contain" src="assets/img/calques/chalcopyrite-640.webp" srcset="assets/img/calques/chalcopyrite-360.webp 360w, assets/img/calques/chalcopyrite-640.webp 640w" sizes="(max-width: 900px) 130px, 240px"></picture>
   </div>
   <div class="conteneur" style="position:relative;z-index:2">
     <div style="max-width:760px;margin-inline:auto" data-revele>
@@ -103,7 +102,7 @@
       <p class="ref">03 · Identité de l'entreprise</p>
       <h2 style="margin-top:18px">Tout ce qu'il faut pour nous référencer</h2>
       <p style="margin-top:20px;color:var(--ardoise)">Votre service achats reçoit ces documents avec notre premier devis.</p>
-      <p style="margin-top:24px"><a class="lien" href="#" data-dossier>Télécharger le dossier fournisseur (PDF)</a></p>
+      <p style="margin-top:24px"><span class="lien lien--attente">Télécharger le dossier fournisseur (PDF) <span class="a-remplir" title="À fournir par GBIC">[PDF à fournir]</span></span></p>
     </div>
     <div data-revele>
       <table class="identite">
@@ -120,7 +119,7 @@
 
 <section class="appel sur-sombre" data-scene>
   <div class="fond-photo" data-vitesse="-0.5" aria-hidden="true">
-    <img src="assets/img/fonds/camions-piste-1920.webp" srcset="assets/img/fonds/camions-piste-960.webp 960w, assets/img/fonds/camions-piste-1920.webp 1920w" sizes="100vw" alt="" loading="lazy" decoding="async">
+    <picture><source type="image/avif" srcset="assets/img/fonds/camions-piste-480.avif 480w, assets/img/fonds/camions-piste-960.avif 960w, assets/img/fonds/camions-piste-1600.avif 1600w" sizes="100vw"><img alt="" loading="lazy" decoding="async" src="assets/img/fonds/camions-piste-960.webp" srcset="assets/img/fonds/camions-piste-480.webp 480w, assets/img/fonds/camions-piste-960.webp 960w, assets/img/fonds/camions-piste-1600.webp 1600w" sizes="100vw"></picture>
   </div>
   <div class="conteneur">
     <h2 data-revele>Dites-nous ce qui manque sur votre site.</h2>
@@ -155,7 +154,7 @@
           <li><a href="a-propos.html">À propos</a></li>
           <li><a href="securite.html">Sécurité</a></li>
           <li><a href="devis.html">Demander un devis</a></li>
-          <li><a href="#" data-dossier>Dossier fournisseur (PDF)</a> <span class="a-remplir" title="À fournir par GBIC">[à fournir]</span></li>
+          <li><span class=" lien--attente">Dossier fournisseur (PDF) <span class="a-remplir" title="À fournir par GBIC">[PDF à fournir]</span></span></li>
           <li><span class="a-remplir" title="À fournir par GBIC">[adresse]</span>, Lubumbashi</li>
           <li><span class="a-remplir" title="À fournir par GBIC">[téléphone]</span> · <span class="a-remplir" title="À fournir par GBIC">[e-mail]</span></li>
         </ul>

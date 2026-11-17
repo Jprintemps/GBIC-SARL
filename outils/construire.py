@@ -18,6 +18,7 @@ SRC = os.path.join(RACINE, "src")
 
 # ---------- Réglages à compléter avec GBIC ----------
 WHATSAPP = ""  # numéro au format international sans + ni espaces, ex. 243970000000
+DOSSIER_FOURNISSEUR = ""  # chemin du PDF, ex. "documents/gbic-dossier-fournisseur.pdf" ; vide = pas encore fourni
 FORMULAIRE_ENVOI = ""  # adresse du service qui reçoit le formulaire (Formspree, Getform, script maison…)
 # Blocs qui dépendent d'une preuve (section 9 du copywriting). Retirer un nom pour publier la version de repli.
 BLOCS_AFFICHES = {"arsp", "chiffres"}
@@ -279,7 +280,7 @@ def pied(R):
           <li><a href="{R}a-propos.html">À propos</a></li>
           <li><a href="{R}securite.html">Sécurité</a></li>
           <li><a href="{R}devis.html">Demander un devis</a></li>
-          <li><a href="#" data-dossier>Dossier fournisseur (PDF)</a> {{{{à fournir}}}}</li>
+          <li><a href="#" data-dossier>Dossier fournisseur (PDF)</a></li>
           <li>{{{{adresse}}}}, Lubumbashi</li>
           <li>{{{{téléphone}}}} · {{{{e-mail}}}}</li>
         </ul>
@@ -311,9 +312,8 @@ def gabarit(R, titre, description, actif, corps):
 <link rel="apple-touch-icon" href="{R}apple-touch-icon.png">
 <link rel="manifest" href="{R}site.webmanifest">
 <meta name="theme-color" content="#14329A">
+<script>try{{var c=navigator.connection;if(/[?&]eco=1/.test(location.search)||c&&(c.saveData||/(^|-)2g$/.test(c.effectiveType||"")))document.documentElement.classList.add("eco")}}catch(e){{}}</script>
 <script>try{{var t=localStorage.getItem("gbic-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}}catch(e){{}}</script>
-<link rel="preload" href="{R}assets/fonts/montserrat-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{R}assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{R}assets/css/style.css">
 <script src="{R}assets/js/main.js" defer></script>
 </head>
@@ -427,7 +427,18 @@ def carte_corridor():
     svg = svg.replace('class="gc-info" text-anchor="end">KASUMBALESA · FRONTIÈRE', 'class="gc-info gc-kasumbalesa" text-anchor="end">KASUMBALESA · VERS L’ÉTRANGER')
     svg = svg.replace("Frontière zambienne à Kasumbalesa, 96 km au sud-est de Lubumbashi.", "Poste de Kasumbalesa, par où arrivent les marchandises de l'étranger, à 96 km au sud-est de Lubumbashi.")
     svg = svg.replace('class="gc-info" text-anchor="start">96 KM', 'class="gc-info gc-kasumbalesa" text-anchor="start">96 KM')
-    return svg
+    return alleger_chemins(svg)
+
+
+def alleger_chemins(svg):
+    """Tracés arrondis au pixel (la carte fait 1 000 unités de large) et sans « L » répétés :
+    un tiers de poids en moins pour la page d'accueil, sans différence visible."""
+    def arrondir(m):
+        v = re.sub(r"-?\d+(?:\.\d+)?", lambda n: str(round(float(n.group(0)))), m.group(2))
+        if m.group(1) == "d" and not re.search(r"[^MLZ\d\s-]", v):
+            v = re.sub(r"\s*L\s*", " ", v)  # après M ou L, une paire de nombres vaut déjà « ligne vers »
+        return f' {m.group(1)}="{v.strip()}"'
+    return re.sub(r'\s(d|points)="([^"]*)"', arrondir, svg)
 
 
 def page_metier(m):
@@ -513,8 +524,67 @@ def page_metier(m):
     return gabarit(R, m["seo"][0], m["seo"][1], "metiers", corps)
 
 
+def dossier(texte):
+    """Liens vers le dossier fournisseur : vrais liens si le PDF existe, sinon texte simple (pas de lien mort)."""
+    def remplacer(m):
+        attributs, libelle = m.group(1), m.group(2)
+        if DOSSIER_FOURNISSEUR:
+            return f'<a{attributs.replace('href="#"', f'href="{DOSSIER_FOURNISSEUR}" download')}>{libelle}</a>'
+        classe = re.search(r'class="([^"]*)"', attributs)
+        return f'<span class="{classe.group(1) if classe else ""} lien--attente">{libelle} {{{{PDF à fournir}}}}</span>'
+    return re.sub(r'<a([^>]*href="#"[^>]*data-dossier[^>]*)>(.*?)</a>', remplacer, texte)
+
+
+# ---------- Images légères : <picture> AVIF + WebP, plusieurs largeurs ----------
+VARIANTES_FICHIER = os.path.join(ICI, "variantes.json")
+
+# Largeur affichée de chaque calque, selon sa classe : le navigateur prend la plus petite variante suffisante.
+TAILLES = [
+    ("carte-metier__personne", "(max-width: 700px) 70vw, 300px"),
+    ("page-hero__personne", "(max-width: 900px) 60vw, 40vw"),
+    ("hero__personne", "(max-width: 900px) 300px, 38vw"),
+    ("scene__sujet", "(max-width: 900px) 90vw, 50vw"),
+    ("minerai", "(max-width: 900px) 130px, 240px"),
+]
+# Quand l'image n'a pas de classe parlante, c'est son conteneur qui dit à quelle taille elle s'affiche.
+CONTEXTES = [
+    ("route__camion", "280px"),
+    ("carte-metier", "(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 420px"),
+    ("scene__cadre", "(max-width: 900px) 100vw, 60vw"),
+]
+TAILLES_DOSSIER = {"fonds": "100vw", "calques": "(max-width: 900px) 70vw, 40vw", "scenes": "(max-width: 900px) 100vw, 60vw"}
+MOTIF_IMG = re.compile(r'<img(\s[^>]*?)?\ssrc="([^"]*?)assets/img/(fonds|calques|scenes)/([a-z0-9-]+?)(?:-(?:\d{3,4}))?\.webp"([^>]*)>')
+
+
+def images_responsives(texte):
+    if not os.path.exists(VARIANTES_FICHIER):
+        return texte
+    variantes = json.load(open(VARIANTES_FICHIER, encoding="utf-8"))
+
+    def remplacer(m):
+        avant, R, dossier_img, nom, apres = m.groups()
+        avant = avant or ""
+        info = variantes.get(f"{dossier_img}/{nom}")
+        if not info:
+            return m.group(0)
+        attributs = re.sub(r'\s(srcset|sizes)="[^"]*"', "", avant + apres)
+        # La classe de l'image, sinon celle de son conteneur proche, donne la taille affichée.
+        proche = texte[max(0, m.start() - 220):m.start()]
+        tailles = (next((t for cle, t in TAILLES if cle in attributs), None)
+                   or next((t for cle, t in CONTEXTES if cle in proche), None)
+                   or TAILLES_DOSSIER[dossier_img])
+        largeurs = info["largeurs"]
+        base = f"{R}assets/img/{dossier_img}/{nom}"
+        avif = ", ".join(f"{base}-{l}.avif {l}w" for l in largeurs)
+        webp = ", ".join(f"{base}-{l}.webp {l}w" for l in largeurs)
+        repli = largeurs[1] if len(largeurs) > 1 else largeurs[0]
+        return (f'<picture><source type="image/avif" srcset="{avif}" sizes="{tailles}">'
+                f'<img{attributs.rstrip()} src="{base}-{repli}.webp" srcset="{webp}" sizes="{tailles}"></picture>')
+    return MOTIF_IMG.sub(remplacer, texte)
+
+
 def finaliser(texte):
-    return a_remplir(conditions(texte))
+    return images_responsives(a_remplir(conditions(dossier(texte))))
 
 
 def main():

@@ -766,6 +766,9 @@ legend, .champ label { display: block; font: 600 16px/1.3 var(--texte); margin-b
 .carte .gc-info { fill: var(--carte-info); }
 .carte .gc-km { fill: var(--carte-ville); }
 .carte .gc-zone { fill: var(--carte-zone); }
+/* Les polices de la carte suivent celles du site (et passent aux polices du système en mode éco). */
+.carte .gc-ville { font-family: var(--titre); }
+.carte .gc-info, .carte .gc-zone, .carte .gc-km { font-family: var(--mono); }
 .carte svg > g:not(.gc-camion) [fill="#FFFFFF"] { fill: var(--carte-trait); }
 .carte svg > g:not(.gc-camion) [fill="#AEB8D6"] { fill: var(--carte-pays); }
 .carte svg > circle[stroke="#FFFFFF"] { stroke: var(--carte-trait); }
@@ -784,3 +787,30 @@ img.portrait-fondateur { border: 3px solid var(--blanc); }
 .signature--portrait .portrait-fondateur { margin: 0; width: 96px; height: 96px; }
 .dg__auteur .portrait-fondateur, .dg__auteur .portrait-fondateur span { font-size: 10px; color: var(--bleu-ciel); }
 .bande__scene { position: absolute; inset: 0; z-index: -2; }
+
+/* ---------- Accessibilité ---------- */
+:root { --rouge-texte: #C11D14; }
+:root[data-theme="dark"] { --rouge-texte: #FF7A70; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --rouge-texte: #FF7A70; } }
+.raison__num { color: var(--rouge-texte); }
+.lien { min-height: 24px; padding-block: 2px; }
+.lien--attente { text-decoration: none; cursor: default; }
+.erreur { color: var(--rouge-texte); }
+.coche input { width: 22px; height: 22px; }
+
+/* ---------- Images responsives ---------- */
+/* <picture> ne fait qu'envelopper l'image : il ne doit rien changer à la mise en page. */
+picture { display: contents; }
+
+/* ---------- Mode éco (2G, économiseur de données) ----------
+   Activé dans <head> quand le téléphone signale une connexion 2G ou le mode « économie de données ».
+   Polices du système (aucun fichier de police téléchargé), décor minéral masqué, aucune animation. */
+html.eco {
+  --titre: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --texte: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: Consolas, "Roboto Mono", "Courier New", monospace;
+}
+html.eco .minerai { display: none; }
+html.eco *, html.eco *::before, html.eco *::after { animation: none !important; transition: none !important; }
+html.eco [data-vitesse], html.eco [data-route] { transform: none !important; }
+html.eco.js [data-revele] { opacity: 1; transform: none; }

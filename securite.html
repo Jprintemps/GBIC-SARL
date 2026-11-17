@@ -14,9 +14,8 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#14329A">
+<script>try{var c=navigator.connection;if(/[?&]eco=1/.test(location.search)||c&&(c.saveData||/(^|-)2g$/.test(c.effectiveType||"")))document.documentElement.classList.add("eco")}catch(e){}</script>
 <script>try{var t=localStorage.getItem("gbic-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="preload" href="assets/fonts/montserrat-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 <script src="assets/js/main.js" defer></script>
 </head>
@@ -45,7 +44,7 @@
 </header>
 <main id="contenu">
 <section class="page-hero page-hero--scene sur-sombre" data-scene>
-  <div class="scene page-hero__scene" data-scene aria-hidden="true" style="--ratio:1.39942;--fx:0.5283;--fy:0.3991"><div class="scene__cadre"><img class="scene__fond" src="assets/img/scenes/chef-chantier.webp" alt="" loading="eager" decoding="async" data-vitesse="-0.1"><img class="scene__sujet" src="assets/img/calques/chef-chantier.webp" alt="" loading="eager" decoding="async" data-vitesse="0.16" style="left:42.417%;top:17.259%;width:20.833%"></div></div>
+  <div class="scene page-hero__scene" data-scene aria-hidden="true" style="--ratio:1.39942;--fx:0.5283;--fy:0.3991"><div class="scene__cadre"><picture><source type="image/avif" srcset="assets/img/scenes/chef-chantier-480.avif 480w, assets/img/scenes/chef-chantier-960.avif 960w, assets/img/scenes/chef-chantier-1210.avif 1210w" sizes="(max-width: 900px) 100vw, 60vw"><img class="scene__fond" alt="" loading="eager" decoding="async" data-vitesse="-0.1" src="assets/img/scenes/chef-chantier-960.webp" srcset="assets/img/scenes/chef-chantier-480.webp 480w, assets/img/scenes/chef-chantier-960.webp 960w, assets/img/scenes/chef-chantier-1210.webp 1210w" sizes="(max-width: 900px) 100vw, 60vw"></picture><picture><source type="image/avif" srcset="assets/img/calques/chef-chantier-360.avif 360w, assets/img/calques/chef-chantier-412.avif 412w" sizes="(max-width: 900px) 90vw, 50vw"><img class="scene__sujet" alt="" loading="eager" decoding="async" data-vitesse="0.16" style="left:42.417%;top:17.259%;width:20.833%" src="assets/img/calques/chef-chantier-412.webp" srcset="assets/img/calques/chef-chantier-360.webp 360w, assets/img/calques/chef-chantier-412.webp 412w" sizes="(max-width: 900px) 90vw, 50vw"></picture></div></div>
   <div class="conteneur">
     <div class="page-hero__texte">
       <p class="fil"><a href="index.html">Accueil</a> / Sécurité</p>
@@ -91,7 +90,7 @@
 
 <section class="appel sur-sombre" data-scene>
   <div class="fond-photo" data-vitesse="-0.5" aria-hidden="true">
-    <img src="assets/img/fonds/mine-tombereau-1920.webp" srcset="assets/img/fonds/mine-tombereau-960.webp 960w, assets/img/fonds/mine-tombereau-1920.webp 1920w" sizes="100vw" alt="" loading="lazy" decoding="async">
+    <picture><source type="image/avif" srcset="assets/img/fonds/mine-tombereau-480.avif 480w, assets/img/fonds/mine-tombereau-960.avif 960w, assets/img/fonds/mine-tombereau-1600.avif 1600w" sizes="100vw"><img alt="" loading="lazy" decoding="async" src="assets/img/fonds/mine-tombereau-960.webp" srcset="assets/img/fonds/mine-tombereau-480.webp 480w, assets/img/fonds/mine-tombereau-960.webp 960w, assets/img/fonds/mine-tombereau-1600.webp 1600w" sizes="100vw"></picture>
   </div>
   <div class="conteneur">
     <h2 data-revele>Votre responsable HSE veut voir nos procédures ?</h2>
@@ -126,7 +125,7 @@
           <li><a href="a-propos.html">À propos</a></li>
           <li><a href="securite.html">Sécurité</a></li>
           <li><a href="devis.html">Demander un devis</a></li>
-          <li><a href="#" data-dossier>Dossier fournisseur (PDF)</a> <span class="a-remplir" title="À fournir par GBIC">[à fournir]</span></li>
+          <li><span class=" lien--attente">Dossier fournisseur (PDF) <span class="a-remplir" title="À fournir par GBIC">[PDF à fournir]</span></span></li>
           <li><span class="a-remplir" title="À fournir par GBIC">[adresse]</span>, Lubumbashi</li>
           <li><span class="a-remplir" title="À fournir par GBIC">[téléphone]</span> · <span class="a-remplir" title="À fournir par GBIC">[e-mail]</span></li>
         </ul>

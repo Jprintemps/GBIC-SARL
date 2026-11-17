@@ -17,20 +17,20 @@
     <form class="formulaire" data-devis data-envoi="[[FORMULAIRE_ENVOI]]" novalidate>
       <div class="formulaire__tete"><span class="ref">Demande de devis</span><span class="ref">GBIC · Lubumbashi</span></div>
 
-      <fieldset data-requis>
+      <fieldset data-requis aria-describedby="erreur-metier">
         <legend>De quoi avez-vous besoin ?</legend>
         <span class="aide">Plusieurs choix possibles.</span>
         <div class="coches">
 [[COCHES_METIERS]]
         </div>
-        <p class="erreur">Cochez au moins un métier.</p>
+        <p class="erreur" id="erreur-metier">Cochez au moins un métier.</p>
       </fieldset>
 
       <div class="champ">
         <label for="besoin">Votre besoin</label>
         <span class="aide" id="aide-besoin">Exemple : « 40 tonnes de ciment livrées à Kolwezi avant le 15 décembre ».</span>
-        <textarea id="besoin" name="besoin" required aria-describedby="aide-besoin"></textarea>
-        <p class="erreur">Décrivez votre besoin en quelques mots.</p>
+        <textarea id="besoin" name="besoin" required aria-describedby="aide-besoin erreur-besoin"></textarea>
+        <p class="erreur" id="erreur-besoin">Décrivez votre besoin en quelques mots.</p>
       </div>
 
       <div class="champ">
@@ -41,8 +41,8 @@
       <div class="champs-2">
         <div class="champ">
           <label for="nom">Votre nom</label>
-          <input id="nom" name="nom" type="text" autocomplete="name" required>
-          <p class="erreur">Indiquez votre nom.</p>
+          <input id="nom" name="nom" type="text" autocomplete="name" required aria-describedby="erreur-nom">
+          <p class="erreur" id="erreur-nom">Indiquez votre nom.</p>
         </div>
         <div class="champ">
           <label for="societe">Votre entreprise</label>
@@ -51,14 +51,14 @@
         <div class="champ">
           <label for="telephone">Téléphone ou WhatsApp</label>
           <span class="aide">Nous vous appelons à ce numéro.</span>
-          <input id="telephone" name="telephone" type="tel" autocomplete="tel" required>
-          <p class="erreur">Indiquez un numéro pour vous rappeler.</p>
+          <input id="telephone" name="telephone" type="tel" autocomplete="tel" required aria-describedby="erreur-telephone">
+          <p class="erreur" id="erreur-telephone">Indiquez un numéro pour vous rappeler.</p>
         </div>
         <div class="champ">
           <label for="email">E-mail</label>
           <span class="aide">Pour vous envoyer le devis.</span>
-          <input id="email" name="email" type="email" autocomplete="email" required>
-          <p class="erreur">Indiquez une adresse e-mail valide.</p>
+          <input id="email" name="email" type="email" autocomplete="email" required aria-describedby="erreur-email">
+          <p class="erreur" id="erreur-email">Indiquez une adresse e-mail valide.</p>
         </div>
       </div>
 

@@ -51,29 +51,64 @@ DETOURAGES = {
 }
 
 
+# Chaque image existe en plusieurs largeurs, en AVIF (léger) et en WebP (repli pour les vieux navigateurs).
+# Le navigateur choisit la plus petite qui suffit à l'écran : un téléphone en 2G ne charge jamais le 1 600 px.
+QUALITE_AVIF = 40
+QUALITE_WEBP = 62
+LARGEURS = {"fonds": (480, 960, 1600), "calques": (360, 720, 1100), "scenes": (480, 960, 1400)}
+MANIFESTE = os.path.join(ICI, "variantes.json")
+
+
+def exporter(im, dossier, nom, manifeste):
+    """Écrit nom-<largeur>.avif et .webp pour chaque largeur utile, et note les largeurs dans le manifeste."""
+    cle = os.path.basename(dossier)
+    largeurs = sorted({min(l, im.width) for l in LARGEURS[cle]})
+    for l in largeurs:
+        copie = im if l == im.width else im.resize((l, round(im.height * l / im.width)), Image.LANCZOS)
+        copie.save(os.path.join(dossier, f"{nom}-{l}.avif"), "AVIF", quality=QUALITE_AVIF, speed=6)
+        copie.save(os.path.join(dossier, f"{nom}-{l}.webp"), "WEBP", quality=QUALITE_WEBP, method=6)
+    manifeste[f"{cle}/{nom}"] = {"largeurs": largeurs, "ratio": round(im.width / im.height, 5)}
+
+
+def lire_manifeste():
+    import json
+    return json.load(open(MANIFESTE, encoding="utf-8")) if os.path.exists(MANIFESTE) else {}
+
+
+def ecrire_manifeste(manifeste):
+    import json
+    with open(MANIFESTE, "w", encoding="utf-8") as f:
+        json.dump(dict(sorted(manifeste.items())), f, indent=1, ensure_ascii=False)
+
+
+def vider(dossier):
+    os.makedirs(dossier, exist_ok=True)
+    for f in os.listdir(dossier):
+        os.remove(os.path.join(dossier, f))
+
+
 def main():
-    os.makedirs(FONDS, exist_ok=True)
-    os.makedirs(CALQUES, exist_ok=True)
+    manifeste = {}
+    vider(FONDS)
+    vider(CALQUES)
     for nom, (fichier, cadre) in PHOTOS.items():
         im = Image.open(os.path.join(SOURCE, "originales", fichier)).convert("RGB")
         if cadre:
             w, h = im.size
             im = im.crop((int(cadre[0] * w), int(cadre[1] * h), int(cadre[2] * w), int(cadre[3] * h)))
-        for largeur in (1920, 960):
-            copie = im.copy()
-            if copie.width > largeur:
-                copie = copie.resize((largeur, round(copie.height * largeur / copie.width)), Image.LANCZOS)
-            copie.save(os.path.join(FONDS, f"{nom}-{largeur}.webp"), "WEBP", quality=70, method=6)
+        im.thumbnail((1600, 2400), Image.LANCZOS)
+        exporter(im, FONDS, nom, manifeste)
     for nom, (fichier, cote) in DETOURAGES.items():
         retouche = os.path.join(RETOUCHEES, f"{nom}.webp")
         source = retouche if os.path.exists(retouche) else os.path.join(SOURCE, "detourees", fichier)
         im = Image.open(source).convert("RGBA")
         im.thumbnail((cote, cote), Image.LANCZOS)
-        im.save(os.path.join(CALQUES, f"{nom}.webp"), "WEBP", quality=80, method=6)
-    preparer_scenes()
+        exporter(im, CALQUES, nom, manifeste)
+    preparer_scenes(manifeste)
+    ecrire_manifeste(manifeste)
     for dossier in (FONDS, CALQUES, SCENES):
-        total = sum(os.path.getsize(os.path.join(dossier, f)) for f in os.listdir(dossier))
-        print(f"{os.path.relpath(dossier, RACINE)} : {len(os.listdir(dossier))} fichiers, {total / 1e6:.1f} Mo")
+        total = sum(os.path.getsize(os.path.join(dossier, f)) for f in os.listdir(dossier) if f.endswith(".avif"))
+        print(f"{os.path.relpath(dossier, RACINE)} : {len(os.listdir(dossier))} fichiers, {total / 1e6:.2f} Mo en AVIF")
 
 
 # Scènes où l'on garde la photo d'origine en pleine résolution et où Gemini ne remplit que la zone du sujet.
@@ -81,13 +116,16 @@ def main():
 HYBRIDES = {"camion-laterite", "camion-piste"}
 
 
-def preparer_scenes():
+def preparer_scenes(manifeste=None):
     """Calque arrière de chaque scène : la photo d'origine en pleine résolution, sauf derrière le sujet,
     où l'on prend le décor reconstruit par Gemini (Gemini rend des images d'environ 1 200 px seulement).
     La zone empruntée à Gemini est la silhouette du sujet, élargie et adoucie pour que le raccord ne se voie pas."""
     import json
     from PIL import ImageFilter
-    os.makedirs(SCENES, exist_ok=True)
+    autonome = manifeste is None
+    if autonome:
+        manifeste = lire_manifeste()
+    vider(SCENES)
     positions = json.load(open(os.path.join(ICI, "positions.json"), encoding="utf-8"))
     for nom, (fichier, _) in DETOURAGES.items():
         base = fichier[:-len(".webp")]
@@ -98,8 +136,7 @@ def preparer_scenes():
             # Fond 100 % Gemini : propre, mais limité à environ 1 200 px.
             im = Image.open(gemini).convert("RGB")
             im.thumbnail((1400, 1400), Image.LANCZOS)
-            im.save(os.path.join(SCENES, f"{nom}.webp"), "WEBP", quality=78, method=6)
-            print("scène", nom, im.size)
+            exporter(im, SCENES, nom, manifeste)
             continue
         photo = Image.open(os.path.join(SOURCE, "originales", base + ".jpg")).convert("RGB")
         photo.thumbnail((2400, 2400), Image.LANCZOS)
@@ -133,9 +170,10 @@ def preparer_scenes():
         flou = int(max(W, H) * 0.016) | 1
         masque = Image.fromarray(cv2.GaussianBlur(m, (0, 0), flou / 2))
         im = Image.composite(fond, photo, masque)
-        im.thumbnail((1920, 1920), Image.LANCZOS)
-        im.save(os.path.join(SCENES, f"{nom}.webp"), "WEBP", quality=78, method=6)
-        print("scène", nom, im.size)
+        im.thumbnail((1400, 1920), Image.LANCZOS)
+        exporter(im, SCENES, nom, manifeste)
+    if autonome:
+        ecrire_manifeste(manifeste)
 
 
 if __name__ == "__main__":

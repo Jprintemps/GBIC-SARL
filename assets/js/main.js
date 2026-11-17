@@ -4,12 +4,15 @@
    - [data-route] : élément qui traverse sa scène de gauche à droite au fil du défilement.
    - [data-habitude] : carte du corridor pilotée par le défilement.
    - [data-revele] : apparition à l'entrée dans l'écran.
-   Tout s'arrête si le visiteur a demandé moins de mouvement. */
+   Tout s'arrête si le visiteur a demandé moins de mouvement, ou si sa connexion est en 2G. */
 (function () {
   "use strict";
   document.documentElement.classList.add("js");
 
   var reduit = window.matchMedia("(prefers-reduced-motion: reduce)");
+  // Mode éco (2G, économie de données) : aucun mouvement, comme si le visiteur l'avait demandé.
+  var eco = document.documentElement.classList.contains("eco");
+  var calme = function () { return eco || reduit.matches; };
   var bornes = function (v, min, max) { return Math.min(max, Math.max(min, v)); };
 
   /* ---------- En-tête : transparent sur le haut de page, solide ensuite ---------- */
@@ -44,6 +47,7 @@
     var sombre = themeActuel() === "dark";
     document.querySelectorAll("[data-theme-bascule]").forEach(function (b) {
       b.setAttribute("aria-label", sombre ? "Passer au thème clair" : "Passer au thème sombre");
+      b.setAttribute("aria-pressed", String(sombre));
     });
   }
   document.querySelectorAll("[data-theme-bascule]").forEach(function (b) {
@@ -145,7 +149,7 @@
   function maj() {
     enAttente = false;
     majEntete();
-    if (reduit.matches) {
+    if (calme()) {
       if (carte) { carte.style.setProperty("--trace", "1"); carte.style.setProperty("--frontiere", "1"); }
       etapesHabitude.forEach(function (e) { e.classList.add("est-active"); });
       document.querySelectorAll(".etapes li").forEach(function (li) { li.classList.add("est-atteinte"); });
@@ -165,7 +169,7 @@
 
   /* ---------- Apparition au défilement ---------- */
   var aReveler = document.querySelectorAll("[data-revele]");
-  if ("IntersectionObserver" in window && !reduit.matches) {
+  if ("IntersectionObserver" in window && !calme()) {
     var obsRevele = new IntersectionObserver(function (entrees) {
       entrees.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add("est-visible"); obsRevele.unobserve(e.target); }

@@ -14,9 +14,8 @@
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="manifest" href="../site.webmanifest">
 <meta name="theme-color" content="#14329A">
+<script>try{var c=navigator.connection;if(/[?&]eco=1/.test(location.search)||c&&(c.saveData||/(^|-)2g$/.test(c.effectiveType||"")))document.documentElement.classList.add("eco")}catch(e){}</script>
 <script>try{var t=localStorage.getItem("gbic-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
-<link rel="preload" href="../assets/fonts/montserrat-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="../assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../assets/css/style.css">
 <script src="../assets/js/main.js" defer></script>
 </head>
@@ -45,7 +44,7 @@
 </header>
 <main id="contenu">
 <section class="page-hero page-hero--sans-personne sur-sombre" data-scene>
-  <div class="fond-photo" data-vitesse="-0.35" aria-hidden="true"><img src="../assets/img/fonds/rouleaux-papier-1920.webp" srcset="../assets/img/fonds/rouleaux-papier-960.webp 960w, ../assets/img/fonds/rouleaux-papier-1920.webp 1920w" sizes="100vw" alt="" loading="eager" decoding="async"></div>
+  <div class="fond-photo" data-vitesse="-0.35" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/img/fonds/rouleaux-papier-480.avif 480w, ../assets/img/fonds/rouleaux-papier-960.avif 960w, ../assets/img/fonds/rouleaux-papier-1600.avif 1600w" sizes="100vw"><img alt="" loading="eager" decoding="async" src="../assets/img/fonds/rouleaux-papier-960.webp" srcset="../assets/img/fonds/rouleaux-papier-480.webp 480w, ../assets/img/fonds/rouleaux-papier-960.webp 960w, ../assets/img/fonds/rouleaux-papier-1600.webp 1600w" sizes="100vw"></picture></div>
   <div class="conteneur">
     <div class="page-hero__texte">
       <p class="fil"><a href="../index.html">Accueil</a> / <a href="index.html">Nos métiers</a> / Produits d'hygiène</p>
@@ -96,7 +95,7 @@
 </section>
 
 <section class="appel sur-sombre" data-scene>
-  <div class="fond-photo" data-vitesse="-0.35" aria-hidden="true"><img src="../assets/img/fonds/camions-piste-1920.webp" srcset="../assets/img/fonds/camions-piste-960.webp 960w, ../assets/img/fonds/camions-piste-1920.webp 1920w" sizes="100vw" alt="" loading="lazy" decoding="async"></div>
+  <div class="fond-photo" data-vitesse="-0.35" aria-hidden="true"><picture><source type="image/avif" srcset="../assets/img/fonds/camions-piste-480.avif 480w, ../assets/img/fonds/camions-piste-960.avif 960w, ../assets/img/fonds/camions-piste-1600.avif 1600w" sizes="100vw"><img alt="" loading="lazy" decoding="async" src="../assets/img/fonds/camions-piste-960.webp" srcset="../assets/img/fonds/camions-piste-480.webp 480w, ../assets/img/fonds/camions-piste-960.webp 960w, ../assets/img/fonds/camions-piste-1600.webp 1600w" sizes="100vw"></picture></div>
   <div class="conteneur">
     <h2 data-revele>Dites-nous ce qui manque sur votre site.</h2>
     <p data-revele>Décrivez-le en trois lignes, nous revenons vers vous avec un prix.</p>
@@ -129,7 +128,7 @@
           <li><a href="../a-propos.html">À propos</a></li>
           <li><a href="../securite.html">Sécurité</a></li>
           <li><a href="../devis.html">Demander un devis</a></li>
-          <li><a href="#" data-dossier>Dossier fournisseur (PDF)</a> <span class="a-remplir" title="À fournir par GBIC">[à fournir]</span></li>
+          <li><span class=" lien--attente">Dossier fournisseur (PDF) <span class="a-remplir" title="À fournir par GBIC">[PDF à fournir]</span></span></li>
           <li><span class="a-remplir" title="À fournir par GBIC">[adresse]</span>, Lubumbashi</li>
           <li><span class="a-remplir" title="À fournir par GBIC">[téléphone]</span> · <span class="a-remplir" title="À fournir par GBIC">[e-mail]</span></li>
         </ul>

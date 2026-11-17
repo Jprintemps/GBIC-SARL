@@ -1,0 +1,281 @@
+{
+ "calques/acheteur": {
+  "largeurs": [
+   360,
+   606
+  ],
+  "ratio": 0.606
+ },
+ "calques/camion-laterite": {
+  "largeurs": [
+   360,
+   720,
+   904
+  ],
+  "ratio": 2.72289
+ },
+ "calques/camion-piste": {
+  "largeurs": [
+   360,
+   720,
+   1060
+  ],
+  "ratio": 0.88333
+ },
+ "calques/cathodes": {
+  "largeurs": [
+   360,
+   720,
+   900
+  ],
+  "ratio": 1.68856
+ },
+ "calques/chalcopyrite": {
+  "largeurs": [
+   360,
+   640
+  ],
+  "ratio": 1.15732
+ },
+ "calques/chef-chantier": {
+  "largeurs": [
+   360,
+   412
+  ],
+  "ratio": 0.412
+ },
+ "calques/cheffe-cuisine": {
+  "largeurs": [
+   360,
+   538
+  ],
+  "ratio": 0.538
+ },
+ "calques/cobalt": {
+  "largeurs": [
+   360,
+   640
+  ],
+  "ratio": 1.19403
+ },
+ "calques/cuivre-natif": {
+  "largeurs": [
+   360,
+   640
+  ],
+  "ratio": 1.09589
+ },
+ "calques/eleveur": {
+  "largeurs": [
+   360,
+   591
+  ],
+  "ratio": 0.591
+ },
+ "calques/heterogenite": {
+  "largeurs": [
+   360,
+   640
+  ],
+  "ratio": 1.25
+ },
+ "calques/howo-profil": {
+  "largeurs": [
+   360,
+   720,
+   1100
+  ],
+  "ratio": 2.21402
+ },
+ "calques/howo-trois-quarts": {
+  "largeurs": [
+   360,
+   720,
+   1100
+  ],
+  "ratio": 1.65975
+ },
+ "calques/ingenieure": {
+  "largeurs": [
+   360,
+   720,
+   784
+  ],
+  "ratio": 0.60308
+ },
+ "calques/magasinier": {
+  "largeurs": [
+   360,
+   587
+  ],
+  "ratio": 0.587
+ },
+ "calques/malachite": {
+  "largeurs": [
+   360,
+   640
+  ],
+  "ratio": 1.19403
+ },
+ "calques/mineur": {
+  "largeurs": [
+   360,
+   712
+  ],
+  "ratio": 0.712
+ },
+ "calques/technicien": {
+  "largeurs": [
+   360,
+   707
+  ],
+  "ratio": 0.707
+ },
+ "fonds/camion-piste-ocre": {
+  "largeurs": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": 1.49953
+ },
+ "fonds/camions-piste": {
+  "largeurs": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": 1.47465
+ },
+ "fonds/concassage": {
+  "largeurs": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": 1.49813
+ },
+ "fonds/eleveuse-poules": {
+  "largeurs": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": 1.46924
+ },
+ "fonds/flotte-camions": {
+  "largeurs": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": 1.66667
+ },
+ "fonds/mine-aerienne": {
+  "largeurs": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": 1.33222
+ },
+ "fonds/mine-terrasses": {
+  "largeurs": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": 1.49953
+ },
+ "fonds/mine-tombereau": {
+  "largeurs": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": 1.49393
+ },
+ "fonds/rouleaux-papier": {
+  "largeurs": [
+   480,
+   960,
+   1600
+  ],
+  "ratio": 1.21212
+ },
+ "scenes/acheteur": {
+  "largeurs": [
+   480,
+   842
+  ],
+  "ratio": 0.66614
+ },
+ "scenes/camion-laterite": {
+  "largeurs": [
+   480,
+   960,
+   1280
+  ],
+  "ratio": 0.66667
+ },
+ "scenes/camion-piste": {
+  "largeurs": [
+   480,
+   960,
+   1280
+  ],
+  "ratio": 0.66667
+ },
+ "scenes/chef-chantier": {
+  "largeurs": [
+   480,
+   960,
+   1210
+  ],
+  "ratio": 1.40046
+ },
+ "scenes/cheffe-cuisine": {
+  "largeurs": [
+   480,
+   842
+  ],
+  "ratio": 0.66614
+ },
+ "scenes/eleveur": {
+  "largeurs": [
+   480,
+   960,
+   1264
+  ],
+  "ratio": 1.49941
+ },
+ "scenes/ingenieure": {
+  "largeurs": [
+   480,
+   896
+  ],
+  "ratio": 0.74667
+ },
+ "scenes/magasinier": {
+  "largeurs": [
+   480,
+   832
+  ],
+  "ratio": 0.65615
+ },
+ "scenes/mineur": {
+  "largeurs": [
+   480,
+   842
+  ],
+  "ratio": 0.66614
+ },
+ "scenes/technicien": {
+  "largeurs": [
+   480,
+   960,
+   1264
+  ],
+  "ratio": 1.50119
+ }
+}
