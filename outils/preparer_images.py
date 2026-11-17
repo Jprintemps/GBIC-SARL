@@ -11,6 +11,8 @@ RACINE = os.path.dirname(ICI)
 SOURCE = os.path.join(RACINE, "..", "site", "images")
 FONDS = os.path.join(RACINE, "assets", "img", "fonds")
 CALQUES = os.path.join(RACINE, "assets", "img", "calques")
+# Retouches faites à la main : si <nom>.webp existe ici, il remplace le détourage automatique.
+RETOUCHEES = os.path.join(SOURCE, "retouchees")
 
 # nom publié : (fichier source, recadrage optionnel en fractions gauche, haut, droite, bas)
 PHOTOS = {
@@ -60,7 +62,9 @@ def main():
                 copie = copie.resize((largeur, round(copie.height * largeur / copie.width)), Image.LANCZOS)
             copie.save(os.path.join(FONDS, f"{nom}-{largeur}.webp"), "WEBP", quality=70, method=6)
     for nom, (fichier, cote) in DETOURAGES.items():
-        im = Image.open(os.path.join(SOURCE, "detourees", fichier)).convert("RGBA")
+        retouche = os.path.join(RETOUCHEES, f"{nom}.webp")
+        source = retouche if os.path.exists(retouche) else os.path.join(SOURCE, "detourees", fichier)
+        im = Image.open(source).convert("RGBA")
         im.thumbnail((cote, cote), Image.LANCZOS)
         im.save(os.path.join(CALQUES, f"{nom}.webp"), "WEBP", quality=80, method=6)
     for dossier in (FONDS, CALQUES):
