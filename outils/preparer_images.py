@@ -13,6 +13,7 @@ FONDS = os.path.join(RACINE, "assets", "img", "fonds")
 CALQUES = os.path.join(RACINE, "assets", "img", "calques")
 # Retouches faites à la main : si <nom>.webp existe ici, il remplace le détourage automatique.
 RETOUCHEES = os.path.join(SOURCE, "retouchees")
+SCENES = os.path.join(RACINE, "assets", "img", "scenes")
 
 # nom publié : (fichier source, recadrage optionnel en fractions gauche, haut, droite, bas)
 PHOTOS = {
@@ -67,10 +68,28 @@ def main():
         im = Image.open(source).convert("RGBA")
         im.thumbnail((cote, cote), Image.LANCZOS)
         im.save(os.path.join(CALQUES, f"{nom}.webp"), "WEBP", quality=80, method=6)
-    for dossier in (FONDS, CALQUES):
+    preparer_scenes()
+    for dossier in (FONDS, CALQUES, SCENES):
         total = sum(os.path.getsize(os.path.join(dossier, f)) for f in os.listdir(dossier))
         print(f"{os.path.relpath(dossier, RACINE)} : {len(os.listdir(dossier))} fichiers, {total / 1e6:.1f} Mo")
 
 
+def preparer_scenes():
+    """Fonds reconstruits par Gemini (la photo sans la personne) : le calque arrière de chaque scène."""
+    os.makedirs(SCENES, exist_ok=True)
+    for nom, (fichier, _) in DETOURAGES.items():
+        fond = os.path.join(SOURCE, "originales", "fonds-gemini", fichier.replace(".webp", "-fond.jpg"))
+        if not os.path.exists(fond):
+            continue
+        im = Image.open(fond).convert("RGB")
+        im.thumbnail((1400, 1400), Image.LANCZOS)
+        im.save(os.path.join(SCENES, f"{nom}.webp"), "WEBP", quality=78, method=6)
+        print("scène", nom, im.size)
+
+
 if __name__ == "__main__":
-    main()
+    import sys
+    if sys.argv[1:] == ["scenes"]:
+        preparer_scenes()
+    else:
+        main()

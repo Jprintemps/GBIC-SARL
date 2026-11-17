@@ -8,6 +8,7 @@ Les textes viennent de ../site/copywriting-site-gbic.md (version 2).
 - <!--si:nom--> … <!--/si:nom--> : bloc conditionnel, gardé seulement si « nom » est dans BLOCS_AFFICHES.
 """
 import html
+import json
 import os
 import re
 
@@ -315,8 +316,38 @@ def gabarit(R, titre, description, actif, corps):
 """
 
 
+# ---------- Scènes : fond reconstruit par Gemini + personne détourée, alignés au pixel ----------
+POSITIONS = json.load(open(os.path.join(ICI, "positions.json"), encoding="utf-8"))
+
+
+def a_une_scene(nom):
+    return nom in POSITIONS and os.path.exists(os.path.join(RACINE, "assets", "img", "scenes", f"{nom}.webp"))
+
+
+def scene(nom, R, classe="", vitesse_fond="-0.08", vitesse_sujet="0.12", chargement="lazy"):
+    p = POSITIONS[nom]
+    fx = p["x"] + p["l"] / 2
+    fy = p["y"] + p["h"] * 0.32
+    return (f'<div class="scene {classe}" data-scene aria-hidden="true" style="--ratio:{p["ratio"]};--fx:{fx:.4f};--fy:{fy:.4f}">'
+            f'<div class="scene__cadre">'
+            f'<img class="scene__fond" src="{R}assets/img/scenes/{nom}.webp" alt="" loading="{chargement}" decoding="async" data-vitesse="{vitesse_fond}">'
+            f'<img class="scene__sujet" src="{R}assets/img/calques/{nom}.webp" alt="" loading="{chargement}" decoding="async" data-vitesse="{vitesse_sujet}" '
+            f'style="left:{p["x"] * 100:.3f}%;top:{p["y"] * 100:.3f}%;width:{p["l"] * 100:.3f}%">'
+            f'</div></div>')
+
+
 # ---------- Morceaux réutilisés ----------
 def carte_metier(m, R, numero):
+    if a_une_scene(m["personne"]):
+        return f"""<a class="carte-metier" href="{R}metiers/{m['slug']}.html" data-revele>
+  {scene(m['personne'], R, 'carte-metier__visuel')}
+  <span class="carte-metier__num ref">{numero:02d} · {FAMILLES[m['famille']]}</span>
+  <div class="carte-metier__corps">
+    <h3>{m['nom']}</h3>
+    <p>{m['carte']}</p>
+    <span class="lien-fleche">Voir ce que nous fournissons</span>
+  </div>
+</a>"""
     return f"""<a class="carte-metier" href="{R}metiers/{m['slug']}.html" data-revele data-scene>
   <div class="carte-metier__visuel">
     <div class="carte-metier__photo"><img src="{R}assets/img/fonds/{m['photo']}-960.webp" alt="" loading="lazy" decoding="async" data-vitesse="-0.12"></div>
@@ -386,9 +417,15 @@ def page_metier(m):
     avec = "\n".join(
         f'<a href="{PAR_SLUG[s]["slug"]}.html" data-revele style="--delai:{i * 0.08:.2f}s"><h3>{PAR_SLUG[s]["nom"]}</h3><p>{phrase}</p><span class="lien-fleche">Voir le métier</span></a>'
         for i, (s, phrase) in enumerate(m["avec"]))
-    corps = f"""<section class="page-hero sur-sombre" data-scene>
-  {fond(m['photo'], R, chargement='eager')}
-  <img class="page-hero__personne" src="{R}assets/img/calques/{m['personne']}.webp" alt="" data-vitesse="0.18" fetchpriority="high">
+    if a_une_scene(m["personne"]):
+        visuel = scene(m["personne"], R, "page-hero__scene", vitesse_fond="-0.1", vitesse_sujet="0.16", chargement="eager")
+        classe_hero = "page-hero page-hero--scene sur-sombre"
+    else:
+        visuel = (fond(m['photo'], R, chargement='eager') +
+                  f'\n  <img class="page-hero__personne" src="{R}assets/img/calques/{m["personne"]}.webp" alt="" data-vitesse="0.18" fetchpriority="high">')
+        classe_hero = "page-hero sur-sombre"
+    corps = f"""<section class="{classe_hero}" data-scene>
+  {visuel}
   <div class="conteneur">
     <div class="page-hero__texte">
       <p class="fil"><a href="{R}index.html">Accueil</a> / <a href="index.html">Nos métiers</a> / {m['nom']}</p>
@@ -460,7 +497,8 @@ def main():
     for sortie, (source, titre, description, actif) in PAGES.items():
         R = "../" if "/" in sortie else ""
         corps = open(os.path.join(SRC, source), encoding="utf-8").read()
-        variables = dict(variables_communes, R=R, FAMILLES_METIERS=familles_metiers(R))
+        variables = dict(variables_communes, R=R, FAMILLES_METIERS=familles_metiers(R),
+                         SCENE_TECHNICIEN=scene("technicien", R, "page-hero__scene", vitesse_fond="-0.1", vitesse_sujet="0.16", chargement="eager"))
         variables["COCHES_METIERS"] = "\n".join(
             f'<label class="coche"><input type="checkbox" name="metier" value="{m["slug"]}"> {m["nom"]}</label>' for m in METIERS
         ) + '\n<label class="coche"><input type="checkbox" name="metier" value="gestion-hoteliere"> Gestion hôtelière</label>' \
