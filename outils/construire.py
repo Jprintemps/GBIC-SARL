@@ -31,7 +31,8 @@ METIERS = [
         "famille": 1,
         "carte": "Exploitation sous contrat, découverture, forage et tir, réhabilitation selon les règles du Code minier.",
         "photo": "mine-tombereau",
-        "personne": "mineur",
+        # Le technicien (logo d'une société minière) remplace le mineur, qui faisait penser à un militaire.
+        "personne": "technicien",
         "h1": "Vous fixez l'objectif de production, nous faisons sortir le minerai.",
         "chapo": "GBIC exploite sous contrat, du décapage à la réhabilitation, et fournit les intrants et les équipements dont vos usines de traitement ont besoin, en RDC et dans la région.",
         "titre_liste": "Ce que nous faisons",
@@ -520,7 +521,7 @@ def main():
         R = "../" if "/" in sortie else ""
         corps = open(os.path.join(SRC, source), encoding="utf-8").read()
         variables = dict(variables_communes, R=R, FAMILLES_METIERS=familles_metiers(R),
-                         SCENE_TECHNICIEN=scene("technicien", R, "page-hero__scene", vitesse_fond="-0.1", vitesse_sujet="0.16", chargement="eager"))
+                         SCENE_SECURITE=scene("chef-chantier", R, "page-hero__scene", vitesse_fond="-0.1", vitesse_sujet="0.16", chargement="eager"))
         variables["COCHES_METIERS"] = "\n".join(
             f'<label class="coche"><input type="checkbox" name="metier" value="{m["slug"]}"> {m["nom"]}</label>' for m in METIERS
         ) + '\n<label class="coche"><input type="checkbox" name="metier" value="gestion-hoteliere"> Gestion hôtelière</label>' \
