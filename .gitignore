@@ -1,0 +1,20 @@
+# Dépendances et builds
+node_modules/
+dist/
+build/
+.cache/
+
+# Environnement et secrets
+.env
+.env.*
+
+# Système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Images sources lourdes : elles restent dans D:\Claude\contenu\gbic\site\images
+images-sources/
+*.psd
+*.ai
+*.tif
