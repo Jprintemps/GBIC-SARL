@@ -1,0 +1,86 @@
+<section class="page-hero page-hero--court page-hero--sans-personne sur-sombre" data-scene>
+  <div class="fond-photo" data-vitesse="-0.35" aria-hidden="true">
+    <img src="[[R]]assets/img/fonds/camions-piste-1920.webp" srcset="[[R]]assets/img/fonds/camions-piste-960.webp 960w, [[R]]assets/img/fonds/camions-piste-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high" decoding="async">
+  </div>
+  <div class="conteneur">
+    <div class="page-hero__texte">
+      <p class="fil"><a href="[[R]]index.html">Accueil</a> / Demander un devis</p>
+      <p class="ref ref--point">Demande de devis</p>
+      <h1>Décrivez votre besoin, nous revenons vers vous avec un prix.</h1>
+      <p>Trois lignes suffisent. Nous vous répondons {{le jour même}} et vous recevez votre devis sous {{48 h ouvrées}}.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="conteneur devis">
+    <form class="formulaire" data-devis data-envoi="[[FORMULAIRE_ENVOI]]" novalidate>
+      <div class="formulaire__tete"><span class="ref">Demande de devis</span><span class="ref">GBIC · Lubumbashi</span></div>
+
+      <fieldset data-requis>
+        <legend>De quoi avez-vous besoin ?</legend>
+        <span class="aide">Plusieurs choix possibles.</span>
+        <div class="coches">
+[[COCHES_METIERS]]
+        </div>
+        <p class="erreur">Cochez au moins un métier.</p>
+      </fieldset>
+
+      <div class="champ">
+        <label for="besoin">Votre besoin</label>
+        <span class="aide" id="aide-besoin">Exemple : « 40 tonnes de ciment livrées à Kolwezi avant le 15 décembre ».</span>
+        <textarea id="besoin" name="besoin" required aria-describedby="aide-besoin"></textarea>
+        <p class="erreur">Décrivez votre besoin en quelques mots.</p>
+      </div>
+
+      <div class="champ">
+        <label for="lieu">Lieu de livraison ou du chantier</label>
+        <input id="lieu" name="lieu" type="text" autocomplete="address-level2">
+      </div>
+
+      <div class="champs-2">
+        <div class="champ">
+          <label for="nom">Votre nom</label>
+          <input id="nom" name="nom" type="text" autocomplete="name" required>
+          <p class="erreur">Indiquez votre nom.</p>
+        </div>
+        <div class="champ">
+          <label for="societe">Votre entreprise</label>
+          <input id="societe" name="societe" type="text" autocomplete="organization">
+        </div>
+        <div class="champ">
+          <label for="telephone">Téléphone ou WhatsApp</label>
+          <span class="aide">Nous vous appelons à ce numéro.</span>
+          <input id="telephone" name="telephone" type="tel" autocomplete="tel" required>
+          <p class="erreur">Indiquez un numéro pour vous rappeler.</p>
+        </div>
+        <div class="champ">
+          <label for="email">E-mail</label>
+          <span class="aide">Pour vous envoyer le devis.</span>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+          <p class="erreur">Indiquez une adresse e-mail valide.</p>
+        </div>
+      </div>
+
+      <div class="formulaire__envoi">
+        <button class="bouton" type="submit">Envoyer ma demande <span class="fleche" aria-hidden="true">→</span></button>
+        <small>Vos informations servent uniquement à vous répondre.</small>
+      </div>
+
+      <p class="message message--ok" role="status" tabindex="-1">C'est reçu. Un membre de l'équipe vous répond {{le jour même}}, et vous recevez votre devis sous {{48 h ouvrées}}. Si c'est urgent, écrivez-nous sur WhatsApp au {{numéro}}.</p>
+      <p class="message message--erreur" role="alert" tabindex="-1">L'envoi n'a pas marché. Réessayez, ou écrivez-nous directement <a href="[[WHATSAPP]]" target="_blank" rel="noopener">sur WhatsApp</a>.</p>
+    </form>
+
+    <aside class="coordonnees" aria-label="Coordonnées">
+      <p class="ref ref--point">Nous joindre directement</p>
+      <dl>
+        <dt>WhatsApp</dt><dd><a href="[[WHATSAPP]]" target="_blank" rel="noopener">Ouvrir la conversation</a> {{numéro}}</dd>
+        <dt>Téléphone</dt><dd>{{numéro}}</dd>
+        <dt>E-mail</dt><dd>{{adresse}}</dd>
+        <dt>Bureaux</dt><dd>{{adresse}}, Lubumbashi</dd>
+        <dt>Horaires</dt><dd>{{lundi au vendredi, 8 h à 17 h}}</dd>
+        <dt>Dossier fournisseur</dt><dd><a href="#" data-dossier>Télécharger (PDF)</a></dd>
+      </dl>
+    </aside>
+  </div>
+</section>

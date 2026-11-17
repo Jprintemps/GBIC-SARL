@@ -1,0 +1,213 @@
+<!-- Haut de page : mine en fond (lente), anneau du logo (tourne), ingénieure et minerais (rapides) -->
+<section class="hero sur-sombre" data-scene>
+  <div class="fond-photo" data-vitesse="-0.45" aria-hidden="true">
+    <img src="[[R]]assets/img/fonds/mine-terrasses-1920.webp" srcset="[[R]]assets/img/fonds/mine-terrasses-960.webp 960w, [[R]]assets/img/fonds/mine-terrasses-1920.webp 1920w" sizes="100vw" alt="" fetchpriority="high" decoding="async">
+  </div>
+  <div class="conteneur hero__grille">
+    <div class="hero__texte">
+      <p class="ref ref--point">Lubumbashi · Likasi · Kolwezi</p>
+      <h1>Ce dont votre site minier a besoin, fourni depuis Lubumbashi.</h1>
+      <p class="hero__sous-titre">Matériaux, logistique, vivres et cantine, produits d'hygiène, sous-traitance minière. Moins de fournisseurs à suivre, et des stocks qui sont déjà au Congo quand vous commandez.</p>
+      <div class="hero__actions">
+        <a class="bouton" href="[[R]]devis.html">Demander un devis <span class="fleche" aria-hidden="true">→</span></a>
+        <a class="lien" href="#" data-dossier>Télécharger notre dossier fournisseur (PDF)</a>
+      </div>
+      <p class="hero__note">Réponse {{le jour même}}, devis sous {{48 h ouvrées}}, en français ou en anglais.</p>
+    </div>
+    <div class="hero__visuel" aria-hidden="true">
+      <div class="anneau" data-vitesse="0.08" data-rotation="40">
+        <svg viewBox="-20 -20 296 296">
+          <circle class="anneau__forme" cx="128" cy="128" r="128"/>
+          <path class="anneau__plein" d="M226.52 101.60A102.0 102.0 0 1 1 154.40 29.48L144.05 68.11A62.0 62.0 0 1 0 187.89 111.95Z"/>
+          <circle class="anneau__point" cx="185.98" cy="70.02" r="24"/>
+        </svg>
+      </div>
+      <img class="minerai minerai--c" src="[[R]]assets/img/calques/heterogenite.webp" alt="" data-vitesse="0.25" data-rotation="-30" decoding="async">
+      <img class="hero__personne" src="[[R]]assets/img/calques/ingenieure.webp" alt="" data-vitesse="0.3" fetchpriority="high" decoding="async">
+      <img class="minerai minerai--a" src="[[R]]assets/img/calques/malachite.webp" alt="" data-vitesse="0.9" data-rotation="60" decoding="async">
+      <img class="minerai minerai--b" src="[[R]]assets/img/calques/cathodes.webp" alt="" data-vitesse="0.7" data-rotation="-12" decoding="async">
+    </div>
+  </div>
+  <a class="hero__defiler" href="#faits">DÉFILER</a>
+</section>
+
+<!-- Bande de faits, comme un bon de livraison -->
+<!--si:chiffres-->
+<section class="faits" id="faits" aria-label="GBIC en chiffres">
+  <div class="conteneur">
+    <ul class="faits__liste" data-revele>
+      <li><span class="faits__chiffre">{{00}}</span><span class="faits__texte">clients servis au Katanga</span></li>
+      <li><span class="faits__chiffre">{{00}}</span><span class="faits__texte">salariés, dont {{00}} % recrutés localement</span></li>
+      <li><span class="faits__chiffre">{{0 000}} m²</span><span class="faits__texte">d'entrepôts à Lubumbashi</span></li>
+      <li><span class="faits__chiffre">{{000}} t</span><span class="faits__texte">livrées par mois</span></li>
+    </ul>
+  </div>
+</section>
+<!--/si:chiffres-->
+
+<!-- Le coût de l'habitude : la carte avance avec le défilement -->
+<section class="habitude" data-habitude aria-labelledby="titre-habitude">
+  <div class="habitude__piste">
+    <div class="habitude__cadre">
+      <div class="conteneur habitude__grille">
+        <div>
+          <p class="ref" style="margin-bottom:18px">Le coût de l'habitude</p>
+          <div class="habitude__compteur" aria-hidden="true"><span class="est-active"></span><span></span><span></span></div>
+          <div class="habitude__etapes">
+            <div class="etape est-active">
+              <h2 id="titre-habitude">Chaque fournisseur de plus, c'est une facture, un délai et un risque de rupture en plus.</h2>
+              <p>Un site au Katanga achète ses matériaux à l'un, ses vivres à un autre, son papier et ses produits d'entretien à un troisième.</p>
+            </div>
+            <div class="etape">
+              <h2>Une bonne partie de ces marchandises traverse la frontière.</h2>
+              <p>Quand un camion attend une semaine à <strong>Kasumbalesa</strong>, c'est votre chantier ou votre cantine qui s'arrête.</p>
+            </div>
+            <div class="etape">
+              <h2>Chez GBIC, la marchandise est déjà de ce côté de la frontière.</h2>
+              <p>GBIC produit une partie de ces biens au Congo et garde le reste en stock à <strong>Lubumbashi</strong> : quand vous commandez, il ne reste que la route jusqu'à votre site.</p>
+              <p>Et pour plusieurs catégories d'achats, vous n'avez qu'un interlocuteur.</p>
+            </div>
+          </div>
+        </div>
+        <figure class="carte" style="margin:0">
+          [[CARTE_CORRIDOR]]
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bande photo : le camion passe plus vite que la piste -->
+<section class="bande sur-sombre" data-scene aria-label="Stocks au Congo">
+  <div class="fond-photo" data-vitesse="-0.5" aria-hidden="true">
+    <img src="[[R]]assets/img/fonds/camion-piste-ocre-1920.webp" srcset="[[R]]assets/img/fonds/camion-piste-ocre-960.webp 960w, [[R]]assets/img/fonds/camion-piste-ocre-1920.webp 1920w" sizes="100vw" alt="" loading="lazy" decoding="async">
+  </div>
+  <img class="bande__camion" src="[[R]]assets/img/calques/howo-trois-quarts.webp" alt="" data-vitesse="0.35" data-x="-0.5" loading="lazy" decoding="async">
+  <div class="conteneur">
+    <div class="bande__texte" data-revele>
+      <p class="ref ref--point">306 km de Lubumbashi à Kolwezi · 4 h 19 de route</p>
+      <p class="bande__titre">Commandé le matin, déjà de ce côté de la frontière.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Métiers -->
+<section class="section" id="metiers" aria-labelledby="titre-metiers">
+  <div class="conteneur">
+    <div class="entete-section" data-revele>
+      <p class="ref">Nos métiers</p>
+      <h2 id="titre-metiers">Ce dont un site a besoin pour tourner, chez un seul fournisseur.</h2>
+    </div>
+    [[FAMILLES_METIERS]]
+  </div>
+</section>
+
+<!-- Pourquoi GBIC -->
+<section class="section section--brume" aria-labelledby="titre-pourquoi">
+  <div class="conteneur">
+    <div class="entete-section" data-revele>
+      <p class="ref">Pourquoi GBIC</p>
+      <h2 id="titre-pourquoi">Ce qui change quand vous travaillez avec nous</h2>
+    </div>
+    <div class="raisons">
+      <div class="raison" data-revele>
+        <span class="raison__num">01</span>
+        <h3>Moins de fournisseurs à suivre.</h3>
+        <p>Pour une base-vie, par exemple : les vivres, la cantine, le papier et les produits d'entretien chez le même fournisseur, avec un contact et une facture. Vous gardez une ligne par catégorie dans vos achats, sans multiplier les interlocuteurs.</p>
+      </div>
+      <div class="raison" data-revele style="--delai:.1s">
+        <span class="raison__num">02</span>
+        <h3>Des stocks déjà au Congo.</h3>
+        <p>Ce que nous produisons ici ne passe pas la frontière, et ce que nous importons est déjà dans nos entrepôts de Lubumbashi quand vous en avez besoin. {{délai moyen de livraison à Lubumbashi / Kolwezi}}.</p>
+      </div>
+      <div class="raison" data-revele style="--delai:.2s">
+        <span class="raison__num">03</span>
+        <h3>Un dossier fournisseur complet dès le premier devis.</h3>
+        <p>Votre service achats reçoit avec notre premier devis tout ce qu'il faut pour nous référencer, sans avoir à le réclamer.</p>
+        <ul class="dossier">
+          <li><span>RCCM</span>CD/LSH/RCCM/24-B-00513</li>
+          <li><span>Id. Nat.</span>05-15500-N41308E</li>
+          <li><span>N° impôt</span>A2414371Y</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--si:arsp-->
+<!-- Sous-traitance locale : publié seulement si GBIC confirme capital congolais et numéro ARSP -->
+<section class="section section--nuit sur-sombre" aria-labelledby="titre-local">
+  <div class="conteneur local">
+    <div data-revele>
+      <p class="ref ref--point">Sous-traitance locale</p>
+      <h2 id="titre-local" style="margin-top:18px">Une entreprise à capitaux congolais, pour vos obligations de sous-traitance</h2>
+      <p>La loi du 8 février 2017 réserve en principe les activités sous-traitées en RDC aux entreprises à capitaux majoritairement congolais, et l'ARSP contrôle. GBIC est détenue majoritairement par des Congolais et enregistrée à l'ARSP sous le n° {{numéro}}. L'attestation est dans notre dossier fournisseur.</p>
+      <p><a class="lien" href="#" data-dossier>Télécharger le dossier fournisseur (PDF)</a></p>
+    </div>
+    <div class="local__sceau" data-revele aria-hidden="true">
+      <div><strong>RDC</strong><p class="ref">Capitaux congolais<br>ARSP {{n°}}</p></div>
+    </div>
+  </div>
+</section>
+<!--/si:arsp-->
+
+<!-- Mot du DG : à gauche ce que la RDC exporte, à droite ce qu'elle importe encore -->
+<section class="dg sur-sombre" data-scene aria-labelledby="titre-dg">
+  <div class="dg__cote dg__cote--gauche" aria-hidden="true">
+    <p class="ref">Ce que la RDC exporte</p>
+    <img class="minerai m1" src="[[R]]assets/img/calques/cobalt.webp" alt="" data-vitesse="0.6" data-rotation="25" loading="lazy" decoding="async">
+    <img class="minerai m2" src="[[R]]assets/img/calques/cathodes.webp" alt="" data-vitesse="0.25" data-rotation="-8" loading="lazy" decoding="async">
+    <img class="minerai m3" src="[[R]]assets/img/calques/malachite.webp" alt="" data-vitesse="1" data-rotation="50" loading="lazy" decoding="async">
+  </div>
+  <div class="dg__cote dg__cote--droite" aria-hidden="true">
+    <p class="ref">Ce qu'elle importe encore</p>
+    <img class="minerai p1" src="[[R]]assets/img/fonds/rouleaux-papier-960.webp" alt="" data-vitesse="0.45" data-rotation="10" loading="lazy" decoding="async">
+    <img class="minerai p2" src="[[R]]assets/img/fonds/eleveuse-poules-960.webp" alt="" data-vitesse="0.8" data-rotation="-14" loading="lazy" decoding="async">
+  </div>
+  <div class="conteneur">
+    <figure class="dg__citation" data-revele style="margin-inline:auto">
+      <h2 id="titre-dg" class="visuellement-cache">Le mot du fondateur</h2>
+      <blockquote>La RDC fournit au monde le cobalt de ses batteries, et elle importe encore son papier toilette et ses œufs. GBIC existe pour réduire cet écart, un produit après l'autre.</blockquote>
+      <figcaption class="dg__auteur">
+        <strong>Alpha Goshen Kalubi Tumba</strong>
+        <span>Fondateur et directeur général</span><br>
+        <a class="lien" href="[[R]]a-propos.html#mot-du-fondateur">Lire le message complet</a>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Comment ça se passe : le camion avance d'une étape à l'autre -->
+<section class="section" aria-labelledby="titre-etapes">
+  <div class="conteneur">
+    <div class="entete-section" data-revele>
+      <p class="ref">Comment ça se passe</p>
+      <h2 id="titre-etapes">Du premier message à la première livraison</h2>
+    </div>
+    <div class="route" data-scene>
+      <div class="route__ligne" aria-hidden="true"></div>
+      <div class="route__camion" data-route aria-hidden="true"><img src="[[R]]assets/img/calques/howo-profil.webp" alt="" loading="lazy" decoding="async"></div>
+      <ol class="etapes">
+        <li><h3>Vous décrivez votre besoin</h3><p>Dans le formulaire ou sur WhatsApp : quoi, combien, où et pour quand.</p></li>
+        <li><h3>Nous vous répondons {{le jour même}}</h3><p>Puis nous vous appelons pour préciser les quantités et les contraintes du site.</p></li>
+        <li><h3>Vous recevez un devis chiffré</h3><p>Sous {{48 h ouvrées}}, en dollars ou en francs congolais, avec notre dossier fournisseur.</p></li>
+        <li><h3>Nous livrons</h3><p>Avec un bon de livraison signé que vous retrouvez dans vos documents.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- Dernier appel -->
+<section class="appel sur-sombre" data-scene aria-labelledby="titre-appel">
+  <div class="fond-photo" data-vitesse="-0.5" aria-hidden="true">
+    <img src="[[R]]assets/img/fonds/camions-piste-1920.webp" srcset="[[R]]assets/img/fonds/camions-piste-960.webp 960w, [[R]]assets/img/fonds/camions-piste-1920.webp 1920w" sizes="100vw" alt="" loading="lazy" decoding="async">
+  </div>
+  <div class="conteneur">
+    <h2 id="titre-appel" data-revele>Dites-nous ce qui manque sur votre site cette semaine.</h2>
+    <p data-revele>Un chantier qui attend son ciment, une cantine à approvisionner, une base-vie à équiper : décrivez-le en trois lignes, nous revenons vers vous avec un prix.</p>
+    <div class="appel__actions" data-revele>
+      <a class="bouton" href="[[R]]devis.html">Demander un devis <span class="fleche" aria-hidden="true">→</span></a>
+      <a class="lien" href="[[WHATSAPP]]" target="_blank" rel="noopener">Écrire sur WhatsApp</a>
+    </div>
+  </div>
+</section>
