@@ -14,6 +14,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <meta name="theme-color" content="#14329A">
+<script>try{var t=localStorage.getItem("gbic-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <link rel="preload" href="assets/fonts/montserrat-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
@@ -27,13 +28,19 @@
       <img class="logo-clair" src="assets/img/logo/gbic-horizontal-inverse.svg" alt="" width="142" height="60">
       <img class="logo-fonce" src="assets/img/logo/gbic-horizontal.svg" alt="" width="142" height="60">
     </a>
-    <button class="entete__menu" type="button" aria-expanded="false" aria-controls="navigation"><span></span>Menu</button>
     <nav class="nav" id="navigation" aria-label="Navigation principale">
       <a href="a-propos.html">À propos</a>
       <a href="metiers/index.html">Nos métiers</a>
       <a href="securite.html">Sécurité</a>
       <a class="bouton bouton--petit" href="devis.html">Demander un devis</a>
     </nav>
+    <div class="entete__actions">
+      <button class="theme-bascule" type="button" data-theme-bascule aria-label="Passer au thème sombre">
+        <svg class="icone-lune" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="icone-soleil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      </button>
+      <button class="entete__menu" type="button" aria-expanded="false" aria-controls="navigation"><span></span>Menu</button>
+    </div>
   </div>
 </header>
 <main id="contenu">

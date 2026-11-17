@@ -34,6 +34,28 @@
     });
   }
 
+  /* ---------- Thème clair / sombre ---------- */
+  var racine = document.documentElement;
+  var systemeSombre = window.matchMedia("(prefers-color-scheme: dark)");
+  function themeActuel() {
+    return racine.getAttribute("data-theme") || (systemeSombre.matches ? "dark" : "light");
+  }
+  function majBascule() {
+    var sombre = themeActuel() === "dark";
+    document.querySelectorAll("[data-theme-bascule]").forEach(function (b) {
+      b.setAttribute("aria-label", sombre ? "Passer au thème clair" : "Passer au thème sombre");
+    });
+  }
+  document.querySelectorAll("[data-theme-bascule]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var suivant = themeActuel() === "dark" ? "light" : "dark";
+      racine.setAttribute("data-theme", suivant);
+      try { localStorage.setItem("gbic-theme", suivant); } catch (e) {}
+      majBascule();
+    });
+  });
+  majBascule();
+
   /* ---------- Calques de parallaxe ---------- */
   var calques = Array.prototype.map.call(document.querySelectorAll("[data-vitesse], [data-route]"), function (el) {
     return {
@@ -74,7 +96,14 @@
         c.el.style.transform = "translate3d(" + (depart + (arrivee - depart) * q).toFixed(1) + "px,0,0)";
         c.scene.style.setProperty("--avance", q.toFixed(3));
         var etapes = c.scene.querySelectorAll(".etapes li");
-        etapes.forEach(function (li, i) { li.classList.toggle("est-atteinte", q >= (i + 0.35) / etapes.length); });
+        var courante = -1;
+        etapes.forEach(function (li, i) {
+          var atteinte = q >= i / etapes.length + 0.02;
+          li.classList.toggle("est-atteinte", atteinte);
+          if (atteinte) courante = i;
+        });
+        // Une seule étape allumée à la fois : celle où se trouve le camion.
+        etapes.forEach(function (li, i) { li.classList.toggle("est-courante", i === courante); });
         return;
       }
       var centre = 0.5 - p;

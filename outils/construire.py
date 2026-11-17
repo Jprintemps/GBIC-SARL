@@ -61,6 +61,8 @@ METIERS = [
         "carte": "Sable, agrégats, ciment, briques, pavés, et démolition pour libérer vos terrains.",
         "photo": "concassage",
         "personne": "chef-chantier",
+        # Carte : le matériel de travail plutôt qu'une personne debout (demande du 17/11).
+        "carte_photo": "concassage",
         "h1": "Les matériaux de votre chantier, livrés quand vous en avez besoin.",
         "chapo": "Sable, agrégats, ciment, briques et pavés : GBIC fournit le gros œuvre de vos constructions, et démolit ce qui doit l'être pour libérer vos terrains.",
         "titre_liste": "Ce que nous fournissons",
@@ -235,13 +237,19 @@ def entete(R, actif):
       <img class="logo-clair" src="{R}assets/img/logo/gbic-horizontal-inverse.svg" alt="" width="142" height="60">
       <img class="logo-fonce" src="{R}assets/img/logo/gbic-horizontal.svg" alt="" width="142" height="60">
     </a>
-    <button class="entete__menu" type="button" aria-expanded="false" aria-controls="navigation"><span></span>Menu</button>
     <nav class="nav" id="navigation" aria-label="Navigation principale">
       {lien("a-propos.html", "À propos", "a-propos")}
       {lien("metiers/index.html", "Nos métiers", "metiers")}
       {lien("securite.html", "Sécurité", "securite")}
       <a class="bouton bouton--petit" href="{R}devis.html">Demander un devis</a>
     </nav>
+    <div class="entete__actions">
+      <button class="theme-bascule" type="button" data-theme-bascule aria-label="Passer au thème sombre">
+        <svg class="icone-lune" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>
+        <svg class="icone-soleil" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>
+      </button>
+      <button class="entete__menu" type="button" aria-expanded="false" aria-controls="navigation"><span></span>Menu</button>
+    </div>
   </div>
 </header>"""
 
@@ -300,6 +308,7 @@ def gabarit(R, titre, description, actif, corps):
 <link rel="apple-touch-icon" href="{R}apple-touch-icon.png">
 <link rel="manifest" href="{R}site.webmanifest">
 <meta name="theme-color" content="#14329A">
+<script>try{{var t=localStorage.getItem("gbic-theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}}catch(e){{}}</script>
 <link rel="preload" href="{R}assets/fonts/montserrat-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{R}assets/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{R}assets/css/style.css">
@@ -338,6 +347,19 @@ def scene(nom, R, classe="", vitesse_fond="-0.08", vitesse_sujet="0.12", chargem
 
 # ---------- Morceaux réutilisés ----------
 def carte_metier(m, R, numero):
+    if m.get("carte_photo"):
+        photo = m["carte_photo"]
+        return f"""<a class="carte-metier" href="{R}metiers/{m['slug']}.html" data-revele>
+  <div class="carte-metier__visuel scene carte-metier__visuel--photo" data-scene aria-hidden="true">
+    <img class="scene__fond" src="{R}assets/img/fonds/{photo}-960.webp" alt="" loading="lazy" decoding="async" data-vitesse="-0.1">
+  </div>
+  <span class="carte-metier__num ref">{numero:02d} · {FAMILLES[m['famille']]}</span>
+  <div class="carte-metier__corps">
+    <h3>{m['nom']}</h3>
+    <p>{m['carte']}</p>
+    <span class="lien-fleche">Voir ce que nous fournissons</span>
+  </div>
+</a>"""
     if a_une_scene(m["personne"]):
         return f"""<a class="carte-metier" href="{R}metiers/{m['slug']}.html" data-revele>
   {scene(m['personne'], R, 'carte-metier__visuel')}
@@ -475,7 +497,7 @@ def page_metier(m):
 <section class="appel sur-sombre" data-scene>
   {fond('camions-piste', R)}
   <div class="conteneur">
-    <h2 data-revele>Dites-nous ce qui manque sur votre site cette semaine.</h2>
+    <h2 data-revele>Dites-nous ce qui manque sur votre site.</h2>
     <p data-revele>Décrivez-le en trois lignes, nous revenons vers vous avec un prix.</p>
     <div class="appel__actions" data-revele><a class="bouton" href="{R}devis.html?metier={m['slug']}">{m['bouton']} <span class="fleche" aria-hidden="true">→</span></a></div>
   </div>
